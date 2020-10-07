@@ -23,7 +23,8 @@ for class_name in os.listdir(root_dir):
     np.random.shuffle(image_names)
     
     train_image_names = image_names[:train_length]; image_names = image_names[train_length:]
-    validation_image_names = image_names[:validation_length]; test_image_names = image_names[validation_length:]
+    validation_image_names = image_names[:validation_length]
+    test_image_names = image_names[validation_length:]
     
     # print(f'# {class_name}')
     # print(f'- Train : {len(train_image_names)}')

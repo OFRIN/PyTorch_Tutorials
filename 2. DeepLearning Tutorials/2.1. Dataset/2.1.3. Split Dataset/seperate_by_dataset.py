@@ -30,7 +30,8 @@ validation_length = int(length * 0.1)
 np.random.shuffle(image_names)
 
 train_image_names = image_names[:train_length]; image_names = image_names[train_length:]
-validation_image_names = image_names[:validation_length]; test_image_names = image_names[validation_length:]
+validation_image_names = image_names[:validation_length]
+test_image_names = image_names[validation_length:]
 
 for image_name in train_image_names:
     train_dic[image_name] = data_dic[image_name]
