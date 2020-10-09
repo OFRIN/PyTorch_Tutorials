@@ -51,7 +51,7 @@ for image_name in test_image_names:
 #########################################################################################################################3
 def get_class_count(dictionary):
     class_dic = {}
-
+    
     for image_name in list(dictionary.keys()):
         try:
             class_dic[dictionary[image_name]] += 1

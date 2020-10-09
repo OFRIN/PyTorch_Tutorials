@@ -11,3 +11,4 @@ for class_name in os.listdir(root_dir):
 
         cv2.imshow(class_name, image)
         cv2.waitKey(0)
+

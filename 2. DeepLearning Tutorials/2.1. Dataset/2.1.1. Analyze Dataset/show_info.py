@@ -1,5 +1,4 @@
 import os
-import matplotlib.pyplot as plt
 
 root_dir = '../../Toy_Dataset/'
 
