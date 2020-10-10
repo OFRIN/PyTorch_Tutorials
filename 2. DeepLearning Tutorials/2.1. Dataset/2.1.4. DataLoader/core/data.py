@@ -18,7 +18,7 @@ class Single_Classification_Dataset(Dataset):
         self.class_dic = {name : label for label, name in enumerate(self.class_names)}
 
         self.image_names = list(self.data_dic.keys())
-
+    
     def __len__(self):
         return len(self.image_names)
 

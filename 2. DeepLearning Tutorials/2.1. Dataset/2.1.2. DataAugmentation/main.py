@@ -1,25 +1,38 @@
-
 import os
 import cv2
 import glob
 
-from augmentation.augment_utils import Random_HorizontalFlip
-from augmentation.augment_utils import Random_ColorJitter
+# from opencv_transforms import transforms
+
+import numpy as np
+from PIL import Image
+
+import torchvision
+from torchvision import datasets, models, transforms
+
+random_crop_fn = transforms.Compose([
+    Image.fromarray,
+    transforms.RandomResizedCrop(224),
+    np.asarray
+])
+
+random_hflip_fn = transforms.Compose([
+    Image.fromarray,
+    transforms.RandomHorizontalFlip(),
+    np.asarray
+])
 
 root_dir = '../../Toy_Dataset/'
-
-func1 = Random_HorizontalFlip(0.5)
-func2 = Random_ColorJitter(brightness = 0.3, contrast = 0.3, saturation = 0.3, hue = 0.1)
 
 for class_name in os.listdir(root_dir):
     for image_path in glob.glob(root_dir + class_name + '/*'):
         
         image = cv2.imread(image_path)
-
-        flip_image = func1(image)
-        color_image = func2(image)
+        
+        crop_image = random_crop_fn(image)
+        hflip_image = random_hflip_fn(image)
 
         cv2.imshow('original', image)
-        cv2.imshow('flip', flip_image)
-        cv2.imshow('color', color_image)
+        cv2.imshow('crop', crop_image)
+        cv2.imshow('flip', hflip_image)
         cv2.waitKey(0)

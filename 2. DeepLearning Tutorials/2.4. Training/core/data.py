@@ -31,7 +31,7 @@ class Single_Classification_Dataset(Dataset):
 
         image = cv2.imread(image_path)
         image = self.transforms(image)
-
+        
         # index to vector
         # label = get_one_hot_vector(label, self.classes)
         
