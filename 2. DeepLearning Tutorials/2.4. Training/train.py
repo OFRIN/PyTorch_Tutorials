@@ -19,8 +19,9 @@ from core.data import Single_Classification_Dataset
 from utility.utils import convert_OpenCV_to_PIL
 
 if __name__ == '__main__':
+    os.environ['CUDA_VISBLE_DEVICES'] = '0, 1'
     device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
-
+    
     # 1. Dataset
     root_dir = '../Toy_Dataset/'
 
