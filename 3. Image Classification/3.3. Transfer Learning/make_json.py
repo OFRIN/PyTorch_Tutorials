@@ -13,3 +13,4 @@ for domain in ['train', 'validation', 'test']:
         data_dic[image_name] = class_name[0]
 
     write_json(f'./data/{domain}.json', data_dic)
+

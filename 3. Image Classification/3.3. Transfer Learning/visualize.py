@@ -22,8 +22,6 @@ for csv_path in glob.glob('./experiments/model/*.csv'):
         except ValueError:
             epoch, phase, loss, accuracy = data[:-1]
         
-        # print(csv_path, data)
-
         if phase == 'train':
             train_data_list.append([float(loss), float(accuracy)])
         else:
