@@ -12,7 +12,7 @@ class Single_Classification_Dataset(Dataset):
         self.data_dic = read_json(json_path)
         
         self.transforms = transforms
-
+        
         self.class_names = class_names
         self.classes = len(class_names)
         self.class_dic = {name : label for label, name in enumerate(self.class_names)}
@@ -35,3 +35,4 @@ class Single_Classification_Dataset(Dataset):
         label = get_one_hot_vector(class_index, self.classes)
         
         return image, label
+

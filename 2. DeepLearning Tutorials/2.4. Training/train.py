@@ -19,7 +19,7 @@ from core.data import Single_Classification_Dataset
 from utility.utils import convert_OpenCV_to_PIL
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISBLE_DEVICES'] = '0, 1'
+    # os.environ['CUDA_VISBLE_DEVICES'] = '0, 1'
     device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
     
     # 1. Dataset
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         condition = torch.argmax(logits, dim=1) == labels
         accuracy = torch.mean(condition.float())
         return accuracy * 100
-
+    
     loss_fn = F.cross_entropy
     accuracy_fn = calculate_accuracy
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # 4. Training
     max_epochs = 200
     best_valid_accuacy = 0.0
-
+    
     for epoch in range(max_epochs):
 
         for phase in ['train', 'validation']:
