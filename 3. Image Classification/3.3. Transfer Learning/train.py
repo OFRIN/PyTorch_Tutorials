@@ -11,6 +11,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from pytorch_model_summary import summary
+
 from torch.utils.data import DataLoader
 # from torch.utils.tensorboard import SummaryWriter
 
@@ -44,6 +46,7 @@ def get_config():
     # Dataset
     ###############################################################################
     parser.add_argument('--use_cores', default=mp.cpu_count(), type=int)
+    parser.add_argument('--class_path', default='./data/Chest_X-Ray.names', type=str)
 
     ###############################################################################
     # Training Schedule
@@ -81,6 +84,7 @@ if __name__ == '__main__':
         os.makedirs(model_dir)
 
     csv_path = './experiments/model/' + '{}.csv'.format(args.model_name)
+    class_names = [line.strip() for line in open(args.class_path).readlines()]
 
     transforms_dic = {
         'train' : transforms.Compose([
@@ -105,7 +109,7 @@ if __name__ == '__main__':
         ])
     }
     
-    dataset_dic = {domain : Single_Classification_Dataset(root_dir + domain + '/', transforms_dic[domain], './data/{}.json'.format(domain), ['dog','horse','elephant','butterfly','chicken','cat','cow','sheep','squirrel','spider']) for domain in ['train', 'validation']}
+    dataset_dic = {domain : Single_Classification_Dataset(root_dir + domain, transforms_dic[domain], './data/{}.json'.format(domain), class_names) for domain in ['train', 'validation']}
     loader_dic = {
         domain : DataLoader(
             dataset_dic[domain], batch_size=args.batch_size, num_workers=args.use_cores, pin_memory=False,
