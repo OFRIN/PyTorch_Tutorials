@@ -9,5 +9,7 @@ docker run \
     -p 8888:8888 \
     --shm-size 8G \
     --volume="$(pwd):$(pwd)" \
+    --volume="/media/sanghyun/Data/DB/Recon_DB/:../Recon_DB/" \
     --workdir="$(pwd)" \
     customized_pytorch:1.6.0
+

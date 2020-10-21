@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     test_transforms = transforms.Compose([
         convert_OpenCV_to_PIL,
-
+        
         transforms.Resize(256),
         transforms.CenterCrop(224),
         
