@@ -10,7 +10,6 @@ RUN apt-get install python-opencv -y
 RUN python3 -m pip install --upgrade pip
 
 RUN python3 -m pip install numpy
-RUN python3 -m pip install pytorch_model_summary
 
 RUN python3 -m pip install opencv_transforms
 RUN python3 -m pip install opencv-python
