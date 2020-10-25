@@ -21,3 +21,4 @@ RUN python3 -m pip install efficientnet_pytorch
 
 RUN python3 -m pip install tensorboard
 
+RUN python3 -m pip install tiffile
