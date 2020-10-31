@@ -14,6 +14,10 @@ from networks import Generator, Discriminator
 # 1. hyperparameters
 image_size = 28
 batch_size = 64
+
+fake_x_length = 8
+fake_y_length = 8
+
 learning_rate = 0.0002
 
 beta1 = 0.5
@@ -28,8 +32,9 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 train_transforms = transforms.Compose(
     [
-        transforms.ToTensor(),
-        transforms.Normalize([0.5], [0.5]),
+        # 0 ~ 255
+        transforms.ToTensor(), # 0 ~ 1
+        transforms.Normalize([0.5], [0.5]), # -1 ~ 1
     ]
 )
 
@@ -54,6 +59,10 @@ fake_gt = torch.autograd.Variable(fake_gt, requires_grad=False)
 real_gt = np.ones((batch_size, 1), dtype=np.float32)
 real_gt = torch.FloatTensor(real_gt).to(device)
 real_gt = torch.autograd.Variable(real_gt, requires_grad=False)
+
+fixed_z = np.random.normal(0, 1, (batch_size, latent_dim))
+fixed_z = torch.FloatTensor(fixed_z).to(device)
+fixed_z = torch.autograd.Variable(fixed_z, requires_grad=False)
 
 for epoch in range(1, max_epoch + 1):
 
@@ -90,4 +99,22 @@ for epoch in range(1, max_epoch + 1):
 
     print(f'Epoch={epoch}, G_loss={G_loss}, D_loss={D_loss}')
 
-    
+    # -1 ~ 1 -> 0 ~ 2 -> 0 ~ 255
+    fake_images = G(fixed_z).cpu().detach().numpy()
+
+    fake_images = fake_images + 1
+    fake_images *= 127.5
+
+    # (64, 28, 28) -> (28 * 8, 28 * 8)
+
+    fake_image = []
+
+    for y in range(fake_y_length):
+        x_image = fake_images[y * fake_x_length + 0]
+        for x in range(1, fake_x_length):
+            x_image = np.concatenate([x_image, fake_images[y * 8 + x]], axis=1)
+
+        fake_image.append(x_image.astype(np.uint8))
+
+    fake_image = np.concatenate(fake_image, axis=0)
+    cv2.imwrite('./results/%03d.jpg'%epoch, fake_image)

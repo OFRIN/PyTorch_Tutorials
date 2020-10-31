@@ -14,7 +14,7 @@ class Generator(nn.Module):
             nn.Linear(in_features=512, out_features=1024),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(in_features=1024, out_features=self.image_size**2),
-            nn.Tanh(),
+            nn.Tanh(), # -1 ~ 1
         )
 
     def forward(self, z):
