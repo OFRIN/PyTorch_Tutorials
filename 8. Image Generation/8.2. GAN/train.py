@@ -9,10 +9,12 @@ from torch.utils.data import DataLoader
 
 from torchvision import datasets, models, transforms
 
-from networks import Generator, Discriminator
+from networks import Generator, Discriminator, initialize_weights
 
 # 1. hyperparameters
 image_size = 28
+image_channels = 1
+
 batch_size = 64
 
 fake_x_length = 8
@@ -25,7 +27,7 @@ beta2 = 0.999
 
 latent_dim = 128
 
-max_epoch = 200
+max_epoch = 150
 
 # 2. Dataset
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -104,9 +106,6 @@ for epoch in range(1, max_epoch + 1):
 
     fake_images = fake_images + 1
     fake_images *= 127.5
-
-    # (64, 28, 28) -> (28 * 8, 28 * 8)
-
     fake_image = []
 
     for y in range(fake_y_length):
