@@ -160,4 +160,4 @@ dataset/
 experiments/
 
 *.pth
-
+*.zip

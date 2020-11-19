@@ -1,8 +1,8 @@
 
-
-import cv2
 import glob
 import torch
+
+from PIL import Image
 
 class ImageDataset(torch.utils.data.Dataset):
     def __init__(self, root_dir, transform=None, mode='trainA'):
@@ -13,7 +13,11 @@ class ImageDataset(torch.utils.data.Dataset):
         return len(self.image_paths)
 
     def __getitem__(self, index):
-        image = cv2.imread(self.image_paths[index])
+        image = Image.open(self.image_paths[index])
+
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+            
         if self.transform is not None:
             image = self.transform(image)
         return image

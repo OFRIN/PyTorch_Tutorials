@@ -1,8 +1,6 @@
-import cv2
+
 import torch
 import numpy as np
-
-from PIL import Image
 
 def weights_init_normal(m):
     classname = m.__class__.__name__
@@ -12,8 +10,12 @@ def weights_init_normal(m):
         torch.nn.init.normal(m.weight.data, 1.0, 0.02)
         torch.nn.init.constant(m.bias.data, 0.0)
 
-def convert_OpenCV_to_PIL(data):
-    return Image.fromarray(data[..., ::-1])
+class LambdaLR():
+    def __init__(self, n_epochs, offset, decay_start_epoch):
+        assert ((n_epochs - decay_start_epoch) > 0), "Decay must start before the training session ends!"
+        self.n_epochs = n_epochs
+        self.offset = offset
+        self.decay_start_epoch = decay_start_epoch
 
-def convert_PIL_to_OpenCV(data):
-    return np.asarray(data)[..., ::-1]
+    def step(self, epoch):
+        return 1.0 - max(0, epoch + self.offset - self.decay_start_epoch)/(self.n_epochs - self.decay_start_epoch)
